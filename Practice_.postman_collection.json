@@ -1,0 +1,366 @@
+{
+	"info": {
+		"_postman_id": "a45afb05-6a4e-4b1a-8a97-606881655d47",
+		"name": "Practice_",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40545406",
+		"_collection_link": "https://api-teamm.postman.co/workspace/Auto-API~1e4efd05-a1e9-452f-895b-d711893408fd/collection/40545406-a45afb05-6a4e-4b1a-8a97-606881655d47?action=share&source=collection_link&creator=40545406"
+	},
+	"item": [
+		{
+			"name": "Bài 1",
+			"item": [
+				{
+					"name": "Bài 1",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"let token = jsonData.token;\r",
+									"let expectedToken = \"QpwL5tke4Pnpja7X4\";\r",
+									"\r",
+									"// ✅ Kiểm tra response có thuộc tính 'token'\r",
+									"pm.test(\"Trả ra token: \", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"token\");\r",
+									"});\r",
+									"\r",
+									"// ✅ Kiểm tra token không rỗng\r",
+									"pm.test(\"Token khác null hoặc empty: \", function () {\r",
+									"    pm.expect(token).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// ✅ Kiểm tra token đúng giá trị mong đợi\r",
+									"pm.test(\"Token trả ra đúng: \", function () {\r",
+									"    pm.expect(token).to.eql(expectedToken);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bài 3",
+			"item": [
+				{
+					"name": "Bài 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"const domain = \"reqres.in\"; // bạn có thể đổi thành \"reqres.in\"\r",
+									"\r",
+									"for (let i = 0; i < jsonData.data.length; i++) {\r",
+									"    \r",
+									"    pm.test(\"Kiểm tra từng email có chứa domain: \" + domain, function () {\r",
+									"        let emailCut_domain = jsonData.data[i].email.split(\"@\")[1];\r",
+									"        pm.expect(emailCut_domain).to.eql(domain);\r",
+									"    });\r",
+									"\r",
+									"\r",
+									"    let firstname = jsonData.data[i].first_name.toLowerCase();\r",
+									"    let lastname = jsonData.data[i].last_name.toLowerCase();\r",
+									"    pm.test(\"Kiểm tra email = firstname.lastname\", function(){     \r",
+									"        let emailCut_hoten = jsonData.data[i].email.split(\"@\")[0];\r",
+									"        let hoten = firstname+\".\"+lastname\r",
+									"        pm.expect(hoten).to.eql(emailCut_hoten);\r",
+									"    });\r",
+									"\r",
+									"\r",
+									"    pm.test(\"Tách email, so sánh với firstname và lastname\", function(){  \r",
+									"        let emailCut1 = jsonData.data[i].email.split(\".\")[0];\r",
+									"        let emailCut2 = jsonData.data[i].email.split(\".\")[1].split(\"@\")[0];\r",
+									"        pm.expect(firstname).to.eql(emailCut1);\r",
+									"        pm.expect(lastname).to.eql(emailCut2);\r",
+									"        \r",
+									"    });\r",
+									"    \r",
+									"}\r",
+									"\r",
+									"    \r",
+									"    \r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users?page=2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bài 4",
+			"item": [
+				{
+					"name": "Bài 4",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let rdName = \"Mr.Tuan - \" + (Math.floor(Math.random()*90000)+10000);\r",
+									"let rdJob = \"Job - \" + (Math.floor(Math.random()*90000)+10000);\r",
+									"// console.log(rdName);\r",
+									"// console.log(rdJob);\r",
+									"\r",
+									"pm.globals.set(\"rdName\", rdName);\r",
+									"pm.globals.set(\"rdJob\", rdJob);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"job\":  \"{{$randomJobTitle}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://reqres.in/api/users",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bài 4 ý 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let rdName = \"Mr.Tuan - \" + (Math.floor(Math.random()*90000)+10000);\r",
+									"let rdJob = \"Job - \" + (Math.floor(Math.random()*90000)+10000);\r",
+									"// console.log(rdName);\r",
+									"// console.log(rdJob);\r",
+									"\r",
+									"pm.globals.set(\"rdName\", rdName);\r",
+									"pm.globals.set(\"rdJob\", rdJob);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Name trả về đúng\", function(){\r",
+									"    let name = jsonData.name;\r",
+									"    let expectedName = pm.globals.get(\"rdName\"); // hoặc environment.get nếu bạn dùng env\r",
+									"    pm.expect(name).to.eql(expectedName);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Job trả về đúng\", function(){\r",
+									"    let job = jsonData.job;\r",
+									"    let expectedJob = pm.globals.get(\"rdJob\");\r",
+									"    pm.expect(job).to.eql(expectedJob);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID, createdAt khác null\", function(){\r",
+									"    pm.expect(jsonData.id).not.to.be.empty;\r",
+									"    pm.expect(jsonData.createdAt).not.to.be.empty;\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{rdName}}\", // tên user truyền từ request\r\n    \"job\": \"{{rdJob}}\" // nghề nghiệp truyền từ request\r\n    // \"id\": \"678\", // id tự sinh\r\n    // \"createdAt\": \"2023-02-17T07:56:02.931Z\" // thời gian tạo user\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://reqres.in/api/users",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bài 4 ý 3",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// let rdName = \"Mr.Tuan - \" + (Math.floor(Math.random()*90000)+10000);\r",
+									"// let rdJob = \"Job - \" + (Math.floor(Math.random()*90000)+10000);\r",
+									"// // console.log(rdName);\r",
+									"// // console.log(rdJob);\r",
+									"\r",
+									"// pm.globals.set(\"rdName\", rdName);\r",
+									"// pm.globals.set(\"rdJob\", rdJob);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"let rpDate = new Date(jsonData.createdAt); // Ngày từ API\r",
+									"let crDate = new Date(); // Ngày hiện tại\r",
+									"\r",
+									"\r",
+									"// Chuyển đổi cả hai ngày về cùng múi giờ Việt Nam\r",
+									"let rpDateInVN = new Date(rpDate.toLocaleString(\"en-US\", { timeZone: \"Asia/Ho_Chi_Minh\" }));\r",
+									"let crDateInVN = new Date(crDate.toLocaleString(\"en-US\", { timeZone: \"Asia/Ho_Chi_Minh\" }));\r",
+									"console.log(rpDateInVN);\r",
+									"console.log(crDateInVN);\r",
+									"\r",
+									"pm.test(\"Create date is correct\", function () {\r",
+									"    pm.expect(rpDateInVN <= crDateInVN).to.be.true; // So sánh ngày giờ đã chuẩn hóa\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\", // tên user truyền từ request\r\n    \"job\": \"{{$randomJobTitle}}\" // nghề nghiệp truyền từ request\r\n    // \"id\": \"678\", // id tự sinh\r\n    // \"createdAt\": \"2023-02-17T07:56:02.931Z\" // thời gian tạo user\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://reqres.in/api/users",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
